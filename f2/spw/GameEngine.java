@@ -18,7 +18,8 @@ public class GameEngine implements KeyListener, GameReporter{
 	
 	//add Enemy2	
 	private ArrayList<Enemy2> enemies2 = new ArrayList<Enemy2>();
-
+	//add bullet
+	private ArrayList<Bullet> bullets = new ArrayList<Bullet>();
 	private SpaceShip v;	
 	
 	private Timer timer;
@@ -111,16 +112,36 @@ public class GameEngine implements KeyListener, GameReporter{
 				score += 100;
 			}
 		}
+
+		Iterator<Bullet> b_iter = bullets.iterator();  
+		while(b_iter.hasNext()){
+			Bullet b = b_iter.next();
+			b.proceed();
+			
+			if(!b.isAlive()){
+				b_iter.remove();
+				gp.sprites.remove(b);
+			}
+		}
 		
 		gp.updateGameUI(this);
 		
 		Rectangle2D.Double vr = v.getRectangle();
 		Rectangle2D.Double er;
+		Rectangle2D.Double br;
 		for(Enemy2 e : enemies2){
 			er = e.getRectangle();
 			if(er.intersects(vr)){
 				die();
 				return;
+			}
+			for(Bullet b : bullets){   
+				br = b.getRectangle();
+				if(br.intersects(er)){
+					e.getHit();
+					b.getHit();
+					return;
+				}
 			}
 		}
 	}
@@ -153,6 +174,12 @@ public class GameEngine implements KeyListener, GameReporter{
 		return score;
 	}
 	
+	private void fire(){
+		Bullet b = new Bullet(v.x, v.y);
+		gp.sprites.add(b);
+		bullets.add(b);
+	}
+
 	@Override
 	public void keyPressed(KeyEvent e) {
 		controlVehicle(e);
