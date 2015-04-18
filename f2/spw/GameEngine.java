@@ -19,7 +19,7 @@ public class GameEngine implements KeyListener, GameReporter{
 	//add Enemy2	
 	private ArrayList<Enemy2> enemies2 = new ArrayList<Enemy2>();
 	//add bullet
-	private ArrayList<Bullet> bullets = new ArrayList<Bullet>();
+	private ArrayList<Bullet> bullet = new ArrayList<Bullet>();
 	private SpaceShip v;	
 	
 	private Timer timer;
@@ -39,9 +39,10 @@ public class GameEngine implements KeyListener, GameReporter{
 			public void actionPerformed(ActionEvent arg0) {
 				process();
 
-
 				//add process2
 				process2();
+				// add process bullet
+				process3();
 			}
 		});
 		timer.setRepeats(true);
@@ -63,6 +64,13 @@ public class GameEngine implements KeyListener, GameReporter{
 		Enemy2 e = new Enemy2((int)(Math.random()*390), 30);
 		gp.sprites.add(e);
 		enemies2.add(e);
+	}
+
+	// add bullet
+	private void generateBullet(){
+		Bullet e = new Bullet((v.x) + (v.width/2), v.y);
+		gp.sprites.add(e);
+		bullet.add(e);
 	}
 	
 	private void process(){
@@ -112,15 +120,32 @@ public class GameEngine implements KeyListener, GameReporter{
 				score += 100;
 			}
 		}
+		
+		gp.updateGameUI(this);
+		
+		Rectangle2D.Double vr = v.getRectangle();
+		Rectangle2D.Double er;
+		for(Enemy2 e : enemies2){
+			er = e.getRectangle();
+			if(er.intersects(vr)){
+				die();
+				return;
+			}
+		}
+	}
 
-		Iterator<Bullet> b_iter = bullets.iterator();  
-		while(b_iter.hasNext()){
-			Bullet b = b_iter.next();
-			b.proceed();
+	// add process3 bullet
+	private void process3(){
+		
+		Iterator<Bullet> e_iter = bullet.iterator();
+		while(e_iter.hasNext()){
+			Bullet e = e_iter.next();
+			e.proceed();
 			
-			if(!b.isAlive()){
-				b_iter.remove();
-				gp.sprites.remove(b);
+			if(!e.isAlive()){
+				e_iter.remove();
+				gp.sprites.remove(e);
+				score += 100;
 			}
 		}
 		
@@ -128,20 +153,11 @@ public class GameEngine implements KeyListener, GameReporter{
 		
 		Rectangle2D.Double vr = v.getRectangle();
 		Rectangle2D.Double er;
-		Rectangle2D.Double br;
-		for(Enemy2 e : enemies2){
+		for(Bullet e : bullet){
 			er = e.getRectangle();
 			if(er.intersects(vr)){
 				die();
 				return;
-			}
-			for(Bullet b : bullets){   
-				br = b.getRectangle();
-				if(br.intersects(er)){
-					e.getHit();
-					b.getHit();
-					return;
-				}
 			}
 		}
 	}
@@ -167,6 +183,10 @@ public class GameEngine implements KeyListener, GameReporter{
 		case KeyEvent.VK_D:
 			difficulty += 0.1;
 			break;
+		// add control bullet
+		case KeyEvent.VK_A:
+			generateBullet();
+			break;
 		}
 	}
 
@@ -174,12 +194,6 @@ public class GameEngine implements KeyListener, GameReporter{
 		return score;
 	}
 	
-	private void fire(){
-		Bullet b = new Bullet(v.x, v.y);
-		gp.sprites.add(b);
-		bullets.add(b);
-	}
-
 	@Override
 	public void keyPressed(KeyEvent e) {
 		controlVehicle(e);
