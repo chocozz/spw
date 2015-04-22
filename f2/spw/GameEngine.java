@@ -26,6 +26,7 @@ public class GameEngine implements KeyListener, GameReporter{
 	
 	private long score = 0;
 	private double difficulty = 0.1;
+	private int live = 5; 
 	
 	public GameEngine(GamePanel gp, SpaceShip v) {
 		this.gp = gp;
@@ -86,18 +87,22 @@ public class GameEngine implements KeyListener, GameReporter{
 			if(!e.isAlive()){
 				e_iter.remove();
 				gp.sprites.remove(e);
-				score += 100;
+				//score += 100;
 			}
 		}
 		
 		gp.updateGameUI(this);
 		
 		Rectangle2D.Double vr = v.getRectangle();
+
 		Rectangle2D.Double er;
 		for(Enemy e : enemies){
 			er = e.getRectangle();
 			if(er.intersects(vr)){
-				die();
+				e.getHit();
+				live -= 1;
+				if(live == 0)
+					die();
 				return;
 			}
 		}
@@ -117,7 +122,7 @@ public class GameEngine implements KeyListener, GameReporter{
 			if(!e.isAlive()){
 				e_iter.remove();
 				gp.sprites.remove(e);
-				score += 100;
+				//score += 100;
 			}
 		}
 		
@@ -128,7 +133,10 @@ public class GameEngine implements KeyListener, GameReporter{
 		for(Enemy2 e : enemies2){
 			er = e.getRectangle();
 			if(er.intersects(vr)){
-				die();
+				e.getHit();
+				live -= 1;
+				if(live == 0)
+					die();
 				return;
 			}
 		}
@@ -145,7 +153,6 @@ public class GameEngine implements KeyListener, GameReporter{
 			if(!e.isAlive()){
 				e_iter.remove();
 				gp.sprites.remove(e);
-				score += 100;
 			}
 		}
 		
@@ -154,7 +161,7 @@ public class GameEngine implements KeyListener, GameReporter{
 		Rectangle2D.Double vr = v.getRectangle();
 		Rectangle2D.Double er;
 		Rectangle2D.Double ee;
-		
+
 		for(Bullet e : bullet){
 			er = e.getRectangle();
 			for(Enemy2 e2 : enemies2){
@@ -162,6 +169,7 @@ public class GameEngine implements KeyListener, GameReporter{
 				if(er.intersects(ee)){
 					e.getHit();
 					e2.getHit();
+					score += 100;
 				}
 			}
 			for(Enemy e1 : enemies){
@@ -169,6 +177,7 @@ public class GameEngine implements KeyListener, GameReporter{
 				if(er.intersects(ee)){
 					e.getHit();
 					e1.getHit();
+					score += 100;
 				}
 			}
 		}
@@ -195,6 +204,9 @@ public class GameEngine implements KeyListener, GameReporter{
 		case KeyEvent.VK_D:
 			difficulty += 0.1;
 			break;
+		case KeyEvent.VK_T:
+			difficulty -= 0.01;
+			break;
 		// add control bullet
 		case KeyEvent.VK_A:
 			generateBullet();
@@ -204,6 +216,10 @@ public class GameEngine implements KeyListener, GameReporter{
 
 	public long getScore(){
 		return score;
+	}
+
+	public int getLive(){
+		return live;
 	}
 	
 	@Override

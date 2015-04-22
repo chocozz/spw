@@ -8,11 +8,11 @@ public class Enemy2 extends Sprite{
 	public static final int Y_TO_FADE = 400;
 	public static final int Y_TO_DIE = 600;
 	
-	private int step = 8;
+	private int step = 10;
 	private boolean alive = true;
 	
 	public Enemy2(int x, int y) {
-		super(x, y, 5, 10);
+		super(x, y, 10, 20);
 		
 	}
 

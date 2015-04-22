@@ -22,7 +22,7 @@ public class GamePanel extends JPanel {
 	public GamePanel() {
 		bi = new BufferedImage(400, 600, BufferedImage.TYPE_INT_ARGB);
 		big = (Graphics2D) bi.getGraphics();
-		//big.setBackground(Color.BLACK);
+		big.setBackground(Color.BLACK);
 
 		imgBg = Toolkit.getDefaultToolkit().getImage("bg.jpg");
 		big.drawImage(imgBg, 0, 0, 400, 600,null);
@@ -30,12 +30,16 @@ public class GamePanel extends JPanel {
 
 	public void updateGameUI(GameReporter reporter){
 		big.clearRect(0, 0, 400, 600);
+		//big.setColor(Color.YELLOW);
+		big.drawImage(imgBg, 0, 0, 400, 600,null);
 		
-		big.setColor(Color.YELLOW);		
+		big.setColor(Color.YELLOW);
 		big.drawString(String.format("%08d", reporter.getScore()), 250, 20);
+		big.setColor(Color.RED);
+		big.drawString(String.format("%d", reporter.getLive()), 50, 20);
 
 		//EXTEND  DrawImage 
-        big.drawImage(imgBg, 0, 0, 400, 600,null);
+        
 
 		for(Sprite s : sprites){
 			s.draw(big);
