@@ -153,11 +153,23 @@ public class GameEngine implements KeyListener, GameReporter{
 		
 		Rectangle2D.Double vr = v.getRectangle();
 		Rectangle2D.Double er;
+		Rectangle2D.Double ee;
+		
 		for(Bullet e : bullet){
 			er = e.getRectangle();
-			if(er.intersects(vr)){
-				die();
-				return;
+			for(Enemy2 e2 : enemies2){
+				ee = e2.getRectangle();
+				if(er.intersects(ee)){
+					e.getHit();
+					e2.getHit();
+				}
+			}
+			for(Enemy e1 : enemies){
+				ee = e1.getRectangle();
+				if(er.intersects(ee)){
+					e.getHit();
+					e1.getHit();
+				}
 			}
 		}
 	}
