@@ -20,13 +20,21 @@ public class GameEngine implements KeyListener, GameReporter{
 	private ArrayList<Enemy2> enemies2 = new ArrayList<Enemy2>();
 	//add bullet
 	private ArrayList<Bullet> bullet = new ArrayList<Bullet>();
+	// add item1
+	private ArrayList<Item1> item1 = new ArrayList<Item1>();
+
 	private SpaceShip v;	
 	
 	private Timer timer;
 	
 	private long score = 0;
 	private double difficulty = 0.1;
+
+	// add live
 	private int live = 5; 
+
+	// add Score item1
+	private long scoreitm = 0;
 	
 	public GameEngine(GamePanel gp, SpaceShip v) {
 		this.gp = gp;
@@ -44,6 +52,8 @@ public class GameEngine implements KeyListener, GameReporter{
 				process2();
 				// add process bullet
 				process3();
+				// add process item1
+				process4();
 			}
 		});
 		timer.setRepeats(true);
@@ -72,6 +82,13 @@ public class GameEngine implements KeyListener, GameReporter{
 		Bullet e = new Bullet((v.x) + (v.width/2), v.y);
 		gp.sprites.add(e);
 		bullet.add(e);
+	}
+
+	// add item1
+	private void generateItem1(){
+		Item1 e = new Item1((int)(Math.random()*390), 30);
+		gp.sprites.add(e);
+		item1.add(e);
 	}
 	
 	private void process(){
@@ -183,6 +200,40 @@ public class GameEngine implements KeyListener, GameReporter{
 		}
 	}
 
+	// add process4 item1
+	private void process4(){
+		if(Math.random() < difficulty){
+			generateItem1();
+		}
+		
+		Iterator<Item1> e_iter = item1.iterator();
+		while(e_iter.hasNext()){
+			Item1 e = e_iter.next();
+			e.proceed();
+			
+			if(!e.isAlive()){
+				e_iter.remove();
+				gp.sprites.remove(e);
+				//score += 100;
+			}
+		}
+		
+		gp.updateGameUI(this);
+		
+		Rectangle2D.Double vr = v.getRectangle();
+		Rectangle2D.Double er;
+		for(Item1 e : item1){
+			er = e.getRectangle();
+			if(er.intersects(vr)){
+				e.getHit();
+				scoreitm += 1;
+				//if(live == 0)
+					//die();
+				return;
+			}
+		}
+	}
+
 	public void die(){
 		timer.stop();
 	}
@@ -218,8 +269,14 @@ public class GameEngine implements KeyListener, GameReporter{
 		return score;
 	}
 
+	// add live
 	public int getLive(){
 		return live;
+	}
+
+	// add score itm
+	public long getScoreItm(){
+		return scoreitm;
 	}
 	
 	@Override

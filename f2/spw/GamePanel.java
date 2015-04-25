@@ -34,9 +34,11 @@ public class GamePanel extends JPanel {
 		big.drawImage(imgBg, 0, 0, 400, 600,null);
 		
 		big.setColor(Color.YELLOW);
-		big.drawString(String.format("%08d", reporter.getScore()), 250, 20);
+		big.drawString(String.format("Score: %08d", reporter.getScore()), 250, 20);
 		big.setColor(Color.RED);
-		big.drawString(String.format("%d", reporter.getLive()), 50, 20);
+		big.drawString(String.format("Live: %d", reporter.getLive()), 50, 20);
+		big.setColor(Color.BLUE);
+		big.drawString(String.format("Items: %d", reporter.getScoreItm()), 100, 20);
 
 		//EXTEND  DrawImage 
         
