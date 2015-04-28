@@ -26,7 +26,7 @@ public class GamePanel extends JPanel {
 		big = (Graphics2D) bi.getGraphics();
 		big.setBackground(Color.BLACK);
 
-		imgBg = Toolkit.getDefaultToolkit().getImage("bg.jpg");
+		imgBg = Toolkit.getDefaultToolkit().getImage("bg6.jpg");
 		big.drawImage(imgBg, 0, 0, 400, 600,null);
 
 		imgLive = Toolkit.getDefaultToolkit().getImage("hp.png");
@@ -40,11 +40,11 @@ public class GamePanel extends JPanel {
 		big.drawImage(imgBg, 0, 0, 400, 600,null);
 		
 		big.setColor(Color.YELLOW);
-		big.drawString(String.format("Scores: %08d", reporter.getScore()), 10, 40);
+		big.drawString(String.format("Scores: %d", reporter.getScore()), 170, 40);
 		big.setColor(Color.RED);
-		big.drawString(String.format("Lives: %d", reporter.getLive()), 10, 20);
+		big.drawString(String.format("Lives: %d", reporter.getLive()), 170, 20);
 		big.setColor(Color.BLUE);
-		big.drawString(String.format("Items: %d", reporter.getScoreItm()), 10, 60); 
+		big.drawString(String.format("Items: %d", reporter.getScoreItm()), 170, 60); 
         
 
 		for(Sprite s : sprites){
@@ -52,7 +52,7 @@ public class GamePanel extends JPanel {
 		}
 
 		// add image Live
-		for(int i=0, j=55 ; i<reporter.getLive(); i++, j+=20){
+		for(int i=0, j=220 ; i<reporter.getLive(); i++, j+=20){
 			big.drawImage(imgLive,j,0,20,20,null);  // img,x,y,width,hight 
 		}
 		

@@ -16,8 +16,8 @@ public class GameEngine implements KeyListener, GameReporter{
 		
 	private ArrayList<Enemy> enemies = new ArrayList<Enemy>();
 	
-	//add Enemy2	
-	private ArrayList<Enemy2> enemies2 = new ArrayList<Enemy2>();
+	//add Item2	
+	private ArrayList<Item2> item2 = new ArrayList<Item2>();
 	//add bullet
 	private ArrayList<Bullet> bullet = new ArrayList<Bullet>();
 	// add item1
@@ -28,7 +28,9 @@ public class GameEngine implements KeyListener, GameReporter{
 	private Timer timer;
 	
 	private long score = 0;
-	private double difficulty = 0.1;
+	private double difficulty = 0.08;
+	private double diffItem1 = 0.01;
+	private double diffItem2 = 0.02;
 
 	// add live
 	private int live = 5; 
@@ -70,11 +72,11 @@ public class GameEngine implements KeyListener, GameReporter{
 		enemies.add(e);
 	}
     
-    // add generateEnemy2
-	private void generateEnemy2(){
-		Enemy2 e = new Enemy2((int)(Math.random()*390), 30);
+    // add generateItem2
+	private void generateItem2(){
+		Item2 e = new Item2((int)(Math.random()*390), 30);
 		gp.sprites.add(e);
-		enemies2.add(e);
+		item2.add(e);
 	}
 
 	// add bullet
@@ -125,15 +127,16 @@ public class GameEngine implements KeyListener, GameReporter{
 		}
 	}
 
-	// add process2
+	
+	// add process2 item2
 	private void process2(){
-		if(Math.random() < difficulty){
-			generateEnemy2();
+		if(Math.random() < diffItem2){
+			generateItem2();
 		}
 		
-		Iterator<Enemy2> e_iter = enemies2.iterator();
+		Iterator<Item2> e_iter = item2.iterator();
 		while(e_iter.hasNext()){
-			Enemy2 e = e_iter.next();
+			Item2 e = e_iter.next();
 			e.proceed();
 			
 			if(!e.isAlive()){
@@ -147,13 +150,13 @@ public class GameEngine implements KeyListener, GameReporter{
 		
 		Rectangle2D.Double vr = v.getRectangle();
 		Rectangle2D.Double er;
-		for(Enemy2 e : enemies2){
+		for(Item2 e : item2){
 			er = e.getRectangle();
 			if(er.intersects(vr)){
 				e.getHit();
-				live -= 1;
-				if(live == 0)
-					die();
+				scoreitm += 1;
+				//if(live == 0)
+					//die();
 				return;
 			}
 		}
@@ -181,14 +184,14 @@ public class GameEngine implements KeyListener, GameReporter{
 
 		for(Bullet e : bullet){
 			er = e.getRectangle();
-			for(Enemy2 e2 : enemies2){
+			/*for(Item2 e2 : item2){
 				ee = e2.getRectangle();
 				if(er.intersects(ee)){
 					e.getHit();
 					e2.getHit();
 					score += 100;
 				}
-			}
+			}*/
 			for(Enemy e1 : enemies){
 				ee = e1.getRectangle();
 				if(er.intersects(ee)){
@@ -202,7 +205,7 @@ public class GameEngine implements KeyListener, GameReporter{
 
 	// add process4 item1
 	private void process4(){
-		if(Math.random() < difficulty){
+		if(Math.random() < diffItem1){
 			generateItem1();
 		}
 		

@@ -12,7 +12,7 @@ public class Item1 extends Sprite{
 	public static final int Y_TO_FADE = 400;
 	public static final int Y_TO_DIE = 600;
 	
-	private int step = 10;
+	private int step = 7;
 	private boolean alive = true;
 	
 	public Item1(int x, int y) {
