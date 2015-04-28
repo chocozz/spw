@@ -15,7 +15,9 @@ import java.awt.Image;
 public class GamePanel extends JPanel {
 	
 	private BufferedImage bi;
-	private Image imgBg;	
+	private Image imgBg;
+	//add imgLive
+	private Image imgLive;	
 	Graphics2D big;
 	ArrayList<Sprite> sprites = new ArrayList<Sprite>();
 
@@ -26,6 +28,10 @@ public class GamePanel extends JPanel {
 
 		imgBg = Toolkit.getDefaultToolkit().getImage("bg.jpg");
 		big.drawImage(imgBg, 0, 0, 400, 600,null);
+
+		imgLive = Toolkit.getDefaultToolkit().getImage("hp.png");
+		big.drawImage(imgLive, 0, 0, 400, 600,null);
+
 	}
 
 	public void updateGameUI(GameReporter reporter){
@@ -34,17 +40,20 @@ public class GamePanel extends JPanel {
 		big.drawImage(imgBg, 0, 0, 400, 600,null);
 		
 		big.setColor(Color.YELLOW);
-		big.drawString(String.format("Score: %08d", reporter.getScore()), 250, 20);
+		big.drawString(String.format("Scores: %08d", reporter.getScore()), 10, 40);
 		big.setColor(Color.RED);
-		big.drawString(String.format("Live: %d", reporter.getLive()), 50, 20);
+		big.drawString(String.format("Lives: %d", reporter.getLive()), 10, 20);
 		big.setColor(Color.BLUE);
-		big.drawString(String.format("Items: %d", reporter.getScoreItm()), 100, 20);
-
-		//EXTEND  DrawImage 
+		big.drawString(String.format("Items: %d", reporter.getScoreItm()), 10, 60); 
         
 
 		for(Sprite s : sprites){
 			s.draw(big);
+		}
+
+		// add image Live
+		for(int i=0, j=55 ; i<reporter.getLive(); i++, j+=20){
+			big.drawImage(imgLive,j,0,20,20,null);  // img,x,y,width,hight 
 		}
 		
 		repaint();
