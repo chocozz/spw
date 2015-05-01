@@ -69,6 +69,20 @@ public class GamePanel extends JPanel {
 		repaint();
 	}
 
+	public void updateEndGameUI(GameReporter reporter){
+		big.clearRect(0, 0, 400, 600);
+		//big.setColor(Color.YELLOW);
+		big.drawImage(imgBg, 0, 0, 400, 600,null);
+		
+		big.setColor(Color.YELLOW);
+		big.drawString(String.format("END"), 170, 40);
+
+
+		
+
+		repaint();
+	}
+
 	@Override
 	public void paint(Graphics g) {
 		Graphics2D g2d = (Graphics2D) g;

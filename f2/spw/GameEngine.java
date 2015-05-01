@@ -122,8 +122,10 @@ public class GameEngine implements KeyListener, GameReporter{
 			if(er.intersects(vr)){
 				e.getHit();
 				live -= 1;
-				if(live == 0)
+				if(live == 0){
 					die();
+					gp.updateEndGameUI(this);
+				}
 				return;
 			}
 		}
