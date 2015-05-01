@@ -30,13 +30,15 @@ public class GameEngine implements KeyListener, GameReporter{
 	private long score = 0;
 	private double difficulty = 0.08;
 	private double diffItem1 = 0.01;
-	private double diffItem2 = 0.02;
+	private double diffItem2 = 0.009;
 
 	// add live
 	private int live = 5; 
 
 	// add Score item1
 	private long scoreitm = 0;
+
+	private long scoreitmdora = 0;
 	
 	public GameEngine(GamePanel gp, SpaceShip v) {
 		this.gp = gp;
@@ -50,11 +52,11 @@ public class GameEngine implements KeyListener, GameReporter{
 			public void actionPerformed(ActionEvent arg0) {
 				process();
 
-				//add process2
+				//add process2 item2 dorayaki
 				process2();
 				// add process bullet
 				process3();
-				// add process item1
+				// add process item1 fan
 				process4();
 			}
 		});
@@ -154,9 +156,11 @@ public class GameEngine implements KeyListener, GameReporter{
 			er = e.getRectangle();
 			if(er.intersects(vr)){
 				e.getHit();
-				scoreitm += 1;
-				//if(live == 0)
-					//die();
+				scoreitmdora += 1;
+				if(scoreitmdora%10 == 0){
+					live += 1;
+					scoreitmdora = 0;
+				}
 				return;
 			}
 		}
@@ -229,7 +233,7 @@ public class GameEngine implements KeyListener, GameReporter{
 			er = e.getRectangle();
 			if(er.intersects(vr)){
 				e.getHit();
-				scoreitm += 1;
+				//scoreitmdora += 1;
 				//if(live == 0)
 					//die();
 				return;
@@ -262,7 +266,7 @@ public class GameEngine implements KeyListener, GameReporter{
 			difficulty -= 0.01;
 			break;
 		// add control bullet
-		case KeyEvent.VK_A:
+		case KeyEvent.VK_SPACE:
 			generateBullet();
 			break;
 		}
@@ -280,6 +284,10 @@ public class GameEngine implements KeyListener, GameReporter{
 	// add score itm
 	public long getScoreItm(){
 		return scoreitm;
+	}
+
+	public long getScoreItmDora(){ 
+		return scoreitmdora;
 	}
 	
 	@Override

@@ -17,7 +17,9 @@ public class GamePanel extends JPanel {
 	private BufferedImage bi;
 	private Image imgBg;
 	//add imgLive
-	private Image imgLive;	
+	private Image imgLive;
+	//add imgItm
+	private Image imgItm;	
 	Graphics2D big;
 	ArrayList<Sprite> sprites = new ArrayList<Sprite>();
 
@@ -32,6 +34,9 @@ public class GamePanel extends JPanel {
 		imgLive = Toolkit.getDefaultToolkit().getImage("hp.png");
 		big.drawImage(imgLive, 0, 0, 400, 600,null);
 
+		imgItm = Toolkit.getDefaultToolkit().getImage("dorayaki.png");
+		//big.drawImage(imgItm, 0, 0, 400, 600,null);
+
 	}
 
 	public void updateGameUI(GameReporter reporter){
@@ -44,7 +49,7 @@ public class GamePanel extends JPanel {
 		big.setColor(Color.RED);
 		big.drawString(String.format("Lives: %d", reporter.getLive()), 170, 20);
 		big.setColor(Color.BLUE);
-		big.drawString(String.format("Items: %d", reporter.getScoreItm()), 170, 60); 
+		big.drawString(String.format("Dorayaki: %d", reporter.getScoreItmDora()), 170, 60); 
         
 
 		for(Sprite s : sprites){
@@ -55,7 +60,12 @@ public class GamePanel extends JPanel {
 		for(int i=0, j=220 ; i<reporter.getLive(); i++, j+=20){
 			big.drawImage(imgLive,j,0,20,20,null);  // img,x,y,width,hight 
 		}
-		
+
+		big.drawImage(imgItm, 2, 76, 25, 15,null);
+		big.setColor(Color.BLUE);
+		big.drawString(String.format("(10)  =         (1)"),30, 90);
+		big.drawImage(imgLive, 70, 75, 20, 20,null);
+
 		repaint();
 	}
 
