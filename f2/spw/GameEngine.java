@@ -50,7 +50,7 @@ public class GameEngine implements KeyListener, GameReporter{
 			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				process();
+				
 
 				//add process2 item2 dorayaki
 				process2();
@@ -58,6 +58,7 @@ public class GameEngine implements KeyListener, GameReporter{
 				process3();
 				// add process item1 fan
 				process4();
+				process();
 			}
 		});
 		timer.setRepeats(true);
@@ -223,7 +224,7 @@ public class GameEngine implements KeyListener, GameReporter{
 			if(!e.isAlive()){
 				e_iter.remove();
 				gp.sprites.remove(e);
-				//score += 100;
+				score += 500;
 			}
 		}
 		
