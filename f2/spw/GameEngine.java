@@ -66,7 +66,8 @@ public class GameEngine implements KeyListener, GameReporter{
 	}
 	
 	public void start(){
-		timer.start();
+		//timer.start();
+		gp.StartGameUI(this);
 	}
 	
 	private void generateEnemy(){
@@ -271,6 +272,9 @@ public class GameEngine implements KeyListener, GameReporter{
 		// add control bullet
 		case KeyEvent.VK_SPACE:
 			generateBullet();
+			break;
+		case KeyEvent.VK_ENTER:
+			timer.start();
 			break;
 		}
 	}

@@ -108,6 +108,14 @@ public class GamePanel extends JPanel {
 		repaint();
 	}
 
+	public void StartGameUI(GameReporter reporter){
+		big.clearRect(0, 0, 400, 600);
+		//big.setColor(Color.YELLOW);
+		//Font f = new Font("",Font.BOLD,50);
+		//big.setFont(f);
+		big.drawString(String.format("START GAME"),130, 300);
+		big.drawString(String.format("Please Enter"),130, 380); 
+	}
 	
 
 	@Override
